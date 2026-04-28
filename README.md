@@ -1,1 +1,145 @@
-# c.nunes.github.io
+# cnunes.github.io
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Calculadora de Troco - carlinhosnx_</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #090909;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        background: #0f0f0f;
+        padding: 30px;
+        border-radius: 18px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 0 25px #00c3ff55;
+        border: 1px solid #00e1ff44;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 28px;
+        text-shadow: 0 0 8px #00e1ff;
+        font-weight: bold;
+    }
+
+    .autor {
+        opacity: 0.7;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        margin-top: 12px;
+        background: #141414;
+        border: 1px solid #00e1ff66;
+        color: #fff;
+        font-size: 17px;
+    }
+
+    button {
+        margin-top: 18px;
+        width: 100%;
+        padding: 14px;
+        background: #00e1ff;
+        color: #000;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 12px #00e1ff;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        box-shadow: 0 0 25px #00e1ff;
+        transform: scale(1.03);
+    }
+
+    .resultado p {
+        margin: 8px 0;
+        font-size: 18px;
+        text-shadow: 0 0 6px #00e1ff;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Calculadora de Troco</h1>
+    <div class="autor">by carlinhosnx_</div>
+
+    <input id="compra" placeholder="Valor da compra (ex: 59,99)">
+    <input id="pago" placeholder="Valor pago (ex: 100)">
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="resultado" class="resultado"></div>
+
+</div>
+
+<script>
+function calcular() {
+    const compra = parseFloat(document.getElementById("compra").value.replace(",", "."));
+    const pago = parseFloat(document.getElementById("pago").value.replace(",", "."));
+    const res = document.getElementById("resultado");
+    res.innerHTML = "";
+
+    if (isNaN(compra) || isNaN(pago) || pago < compra) {
+        res.innerHTML = "<p>Valores inválidos.</p>";
+        return;
+    }
+
+    let troco = parseFloat((pago - compra).toFixed(2));
+
+    const notas = [200, 100, 50, 20, 10, 5, 2];
+    const moedas = [1, 0.50, 0.25, 0.10, 0.05, 0.01];
+
+    function addLinha(qtd, valor) {
+        const p = document.createElement("p");
+        p.textContent = `${qtd}x R$ ${valor.toFixed(2)}`;
+        res.appendChild(p);
+    }
+
+    for (let n of notas) {
+        let qtd = Math.floor(troco / n);
+        if (qtd > 0) {
+            addLinha(qtd, n);
+            troco = parseFloat((troco - qtd * n).toFixed(2));
+        }
+    }
+
+    for (let m of moedas) {
+        let qtd = Math.floor(troco / m + 0.0001);
+        if (qtd > 0) {
+            addLinha(qtd, m);
+            troco = parseFloat((troco - qtd * m).toFixed(2));
+        }
+    }
+}
+</script>
+
+</body>
+</html>
+```
